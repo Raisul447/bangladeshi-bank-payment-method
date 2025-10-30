@@ -1,6 +1,6 @@
 # 🏦 Bangladeshi Bank Payment Method
 
-![bangladeshi-bank-payment-method](assets/icon-128x128.png)
+![bangladeshi-bank-payment-method](assets/banner-772x250.png)
 
 A custom WooCommerce payment gateway for Bangladeshi businesses, enabling customers to securely upload a receipt or screenshot of their bank or mobile banking payment confirmation during checkout for easy, manual verification.
 ---
