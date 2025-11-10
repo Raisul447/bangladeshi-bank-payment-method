@@ -3,7 +3,7 @@
 Plugin Name: Bangladeshi Bank Payment Method
 Plugin URI:  https://raisul.dev/projects/bangladeshi-bank-payment-method-for-woocommerce-plugin
 Description: WooCommerce payment gateway for Bangladeshi businesses that allows customers to upload a bank payment receipt (screenshot/image) during checkout for manual verification.
-Version:     1.0.3
+Version:     1.0.4
 Author:      Raisul Islam Shagor
 Author URI: https://raisul.dev
 Requires at least: 4.8
@@ -29,6 +29,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
     // Global function prefixed
     function rsldvbbpm_enqueue_styles() {
         if ( is_checkout() && ! is_wc_endpoint_url( 'order-received' ) ) {
+            // Ensuring the correct handle and file name is used (bbpm-styles.css)
             wp_enqueue_style( 'bbpm-style', plugins_url( 'assets/bbpm-styles.css', __FILE__ ), array(), '1.0.1' );
         }
     }
@@ -40,6 +41,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
     // Global function prefixed
     function rsldvbbpm_enqueue_scripts() {
         if ( is_checkout() && ! is_wc_endpoint_url( 'order-received' ) ) {
+            // Ensuring the correct handle and file name is used (bbpm-checkout.js)
             wp_enqueue_script(
                 'bbpm-checkout-js',
                 plugins_url( 'assets/bbpm-checkout.js', __FILE__ ),
