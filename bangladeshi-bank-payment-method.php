@@ -22,31 +22,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Check if WooCommerce is active
+ * Check if WooCommerce is active (FIXED Naming Convention)
  **/
-if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+
+// **CRITICAL FIX:** Ensure the is_plugin_active function is available before calling it
+if ( ! function_exists( 'is_plugin_active' ) ) {
+    require_once ABSPATH . 'wp-admin/includes/plugin.php';
+}
+
+// Checking for WooCommerce activation using the correct standard function
+if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
 
     // Global function prefixed
     function rsldvbbpm_enqueue_styles() {
         if ( is_checkout() && ! is_wc_endpoint_url( 'order-received' ) ) {
-            // Ensuring the correct handle and file name is used (bbpm-styles.css)
             wp_enqueue_style( 'bbpm-style', plugins_url( 'assets/bbpm-styles.css', __FILE__ ), array(), '1.0.1' );
         }
     }
     add_action( 'wp_enqueue_scripts', 'rsldvbbpm_enqueue_styles' );
 
     /**
-     * Enqueue custom JS for non-AJAX file upload
+     * Enqueue custom JS for non-AJAX file upload and localize data
      */
     // Global function prefixed
     function rsldvbbpm_enqueue_scripts() {
         if ( is_checkout() && ! is_wc_endpoint_url( 'order-received' ) ) {
-            // Ensuring the correct handle and file name is used (bbpm-checkout.js)
             wp_enqueue_script(
                 'bbpm-checkout-js',
                 plugins_url( 'assets/bbpm-checkout.js', __FILE__ ),
                 array( 'jquery', 'wc-checkout' ),
-                '1.0.3',
+                '1.0.5',
                 true
             );
         }
@@ -54,7 +59,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
     add_action( 'wp_enqueue_scripts', 'rsldvbbpm_enqueue_scripts', 20 );
 
     
-    // Global function prefixed (Moved to global scope to avoid critical error)
+    // Global function prefixed 
     function rsldvbbpm_add_gateway_class( $methods ) {
         // Updated Class Name
         $methods[] = 'RSLDVBBPM_WC_Gateway_Bangladeshi_Bank_Payment';
