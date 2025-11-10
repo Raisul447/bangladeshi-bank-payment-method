@@ -11,7 +11,7 @@ A custom WooCommerce payment gateway for Bangladeshi businesses, enabling custom
 - **Requires at least:** WordPress 4.8  
 - **Tested up to:** WordPress 6.8  
 - **Requires PHP:** 7.0  
-- **Stable tag:** 1.0.3 
+- **Stable tag:** 1.0.4 
 - **License:** [GPLv3 or later](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ---
@@ -66,6 +66,11 @@ No. Payments are marked as "On Hold" until you manually verify the uploaded rece
 
 ## 📝 Changelog
 
+### 1.0.4
+- Major fix: Resolved critical conflict where inline script usage broke file upload functionality.
+- Compliance: Removed direct inline <script> tag to adhere to WordPress plugin submission guidelines.
+- Fix: Ensured file size validation and AJAX disable logic now function correctly using standard JS enqueuing methods.
+
 ### 1.0.3
 - Disabled WooCommerce AJAX checkout when this gateway is selected to ensure file uploads work reliably.
 - Improved JavaScript isolation and form handling.
@@ -85,7 +90,7 @@ No. Payments are marked as "On Hold" until you manually verify the uploaded rece
 ---
 
 ## 📢 Update Notice
-= 1.0.3 = First stable release, resolves compatibility issues when used alongside other manual payment plugins.
+= 1.0.4 = Final stable release. Fully resolves the critical timing conflict issue related to file uploads and compliance requirements.
 
 ## ⚖️ License & Copyright
 - Copyright © **Raisul Islam Shagor** 
