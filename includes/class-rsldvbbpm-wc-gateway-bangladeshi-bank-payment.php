@@ -130,6 +130,7 @@ class RSLDVBBPM_WC_Gateway_Bangladeshi_Bank_Payment extends WC_Payment_Gateway {
 
         echo '<div class="bbpm-help-text">' . esc_html( __( 'Please pay the total amount through NPSB to avoid payment disruptions or delivery delays, and upload the payment receipt/screenshot to confirm your order.', 'bangladeshi-bank-payment-method' ) ) . '</div>';
 
+        // **CRITICAL FIX: Corrected the quotes to fix Uncaught SyntaxError**
         echo '<script>
         document.addEventListener("DOMContentLoaded", function() {
             const fileInput = document.querySelector(\'input[name="bbpm_payment_receipt"]\');
@@ -137,7 +138,7 @@ class RSLDVBBPM_WC_Gateway_Bangladeshi_Bank_Payment extends WC_Payment_Gateway {
                 fileInput.addEventListener("change", function(e) {
                     const file = e.target.files[0];
                     if (file && file.size > 512000) {
-                        alert("' . esc_js( __( 'File must be under 500KB.', 'bangladeshi-bank-payment-method' ) ) . '");
+                        alert(\'' . esc_js( __( 'File must be under 500KB.', 'bangladeshi-bank-payment-method' ) ) . '\');
                         e.target.value = "";
                     }
                 });
