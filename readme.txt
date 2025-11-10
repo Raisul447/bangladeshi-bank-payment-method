@@ -3,7 +3,7 @@ Contributors: shagor447
 Tags: woocommerce, payment gateway, bangladesh bank transfer, manual payment, bangladeshi bank payment gateway
 Requires at least: 4.8
 Tested up to: 6.8
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -58,6 +58,11 @@ Yes. It works alongside PayPal, Stripe, Cash on Delivery, and other gateways.
 
 == Changelog ==
 
+= 1.0.4 =
+* Major fix: Resolved critical conflict where inline script usage broke file upload functionality.
+* Compliance: Removed direct inline <script> tag to adhere to WordPress plugin submission guidelines.
+* Fix: Ensured file size validation and AJAX disable logic now function correctly using standard JS enqueuing methods.
+
 = 1.0.3 =
 * Disabled WooCommerce AJAX checkout when this gateway is selected to ensure file uploads work reliably.
 * Improved JavaScript isolation and form handling.
@@ -76,5 +81,5 @@ Yes. It works alongside PayPal, Stripe, Cash on Delivery, and other gateways.
 
 == Upgrade Notice ==
 
-= 1.0.3 =
-First stable release, resolves compatibility issues when used alongside other manual payment plugins.
+= 1.0.4 =
+Final stable release. Fully resolves the critical timing conflict issue related to file uploads and compliance requirements.
