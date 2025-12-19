@@ -8,10 +8,10 @@ A custom WooCommerce payment gateway for Bangladeshi businesses, enabling custom
 ## 📌 Plugin Information
 - **Contributors:** shagor447  
 - **Tags:** woocommerce, payment gateway, bangladesh bank transfer, manual payment, bangladeshi bank payment gateway
-- **Requires at least:** WordPress 4.8  
-- **Tested up to:** WordPress 6.8  
-- **Requires PHP:** 7.0  
-- **Stable tag:** 1.0.4 
+- **Requires at least:** WordPress 6.0  
+- **Tested up to:** WordPress 6.9  
+- **Requires PHP:** 7.4  
+- **Stable tag:** 1.0.6 
 - **License:** [GPLv3 or later](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ---
@@ -23,7 +23,7 @@ This plugin adds a secure Bank Payment with Receipt Upload option to your WooCom
 ## ✨ Features
 - Accept bank transfer payments from any Bangladeshi bank (City Bank, IFIC BANK, UCB Bank, Islami Bank etc.).
 - Customers upload a payment receipt image (PNG/JPG) during checkout.
-- Automatic file validation (max 500KB, only images allowed).
+- Automatic file validation (max 1MB, only images allowed).
 - Displays your bank account details clearly on the checkout page.
 - Fully compatible with WooCommerce emails, order statuses, and cart flow.
 - You can change your bank icon, which will make it visually clear and easier for customers to understand.
@@ -66,6 +66,14 @@ No. Payments are marked as "On Hold" until you manually verify the uploaded rece
 
 ## 📝 Changelog
 
+###1.0.6
+- Fixed: Image upload size increased to 1MB.
+- Tested with the latest WordPress version.
+- Fixed minor bugs.
+
+### 1.0.5
+- Fix: Missing data.
+
 ### 1.0.4
 - Major fix: Resolved critical conflict where inline script usage broke file upload functionality.
 - Compliance: Removed direct inline <script> tag to adhere to WordPress plugin submission guidelines.
@@ -90,7 +98,7 @@ No. Payments are marked as "On Hold" until you manually verify the uploaded rece
 ---
 
 ## 📢 Update Notice
-= 1.0.4 = Final stable release. Fully resolves the critical timing conflict issue related to file uploads and compliance requirements.
+= 1.0.6 = Version 1.0.6 has been released as a stable version.
 
 ## ⚖️ License & Copyright
 - Copyright © **Raisul Islam Shagor** 
