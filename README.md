@@ -66,7 +66,7 @@ No. Payments are marked as "On Hold" until you manually verify the uploaded rece
 
 ## 📝 Changelog
 
-###1.0.6
+### 1.0.6
 - Fixed: Image upload size increased to 1MB.
 - Tested with the latest WordPress version.
 - Fixed minor bugs.
