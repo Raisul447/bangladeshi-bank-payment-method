@@ -125,7 +125,7 @@ class RSLDVBBPM_WC_Gateway_Bangladeshi_Bank_Payment extends WC_Payment_Gateway {
         echo '<label for="' . esc_attr( $this->id ) . '-payment-receipt">' . esc_html( __( 'Upload your payment receipt or screenshot (Required)', 'bangladeshi-bank-payment-method' ) ) . ' <span class="required">*</span></label>';
         echo '<input id="' . esc_attr( $this->id ) . '-payment-receipt" class="input-text bbpm-input-field" type="file" name="bbpm_payment_receipt" accept="image/png,image/jpeg,image/jpg" required />';
         wp_nonce_field( 'bbpm_process_payment', 'bbpm_process_payment_nonce' );
-        echo '<small class="bbpm-file-info">' . esc_html( __( 'Max upload size: 500KB. Supported formats: PNG, JPG, JPEG.', 'bangladeshi-bank-payment-method' ) ) . '</small>';
+        echo '<small class="bbpm-file-info">' . esc_html( __( 'Max upload size: 1MB. Supported formats: PNG, JPG, JPEG.', 'bangladeshi-bank-payment-method' ) ) . '</small>';
         echo '</div>';
 
         echo '<div class="bbpm-help-text">' . esc_html( __( 'Please pay the total amount through NPSB to avoid payment disruptions or delivery delays, and upload the payment receipt/screenshot to confirm your order.', 'bangladeshi-bank-payment-method' ) ) . '</div>';
@@ -137,8 +137,8 @@ class RSLDVBBPM_WC_Gateway_Bangladeshi_Bank_Payment extends WC_Payment_Gateway {
             if (fileInput) {
                 fileInput.addEventListener("change", function(e) {
                     const file = e.target.files[0];
-                    if (file && file.size > 512000) {
-                        alert(\'' . esc_js( __( 'File must be under 500KB.', 'bangladeshi-bank-payment-method' ) ) . '\');
+                    if (file && file.size > 1048576) {
+                        alert(\'' . esc_js( __( 'File must be under 1MB.', 'bangladeshi-bank-payment-method' ) ) . '\');
                         e.target.value = "";
                     }
                 });
@@ -183,8 +183,8 @@ class RSLDVBBPM_WC_Gateway_Bangladeshi_Bank_Payment extends WC_Payment_Gateway {
             return;
         }
 
-        if ( $file_data['size'] > 512000 ) {
-            wc_add_notice( __( 'File size exceeds 500KB limit.', 'bangladeshi-bank-payment-method' ), 'error' );
+        if ( $file_data['size'] > 1048576 ) {
+            wc_add_notice( __( 'File size exceeds 1MB limit.', 'bangladeshi-bank-payment-method' ), 'error' );
             return;
         }
 
