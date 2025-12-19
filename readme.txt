@@ -1,10 +1,10 @@
 === Bangladeshi Bank Payment Method ===
 Contributors: shagor447
 Tags: woocommerce, payment gateway, bangladesh bank transfer, manual payment, bangladeshi bank payment gateway
-Requires at least: 4.8
-Tested up to: 6.8
-Stable tag: 1.0.4
-Requires PHP: 7.0
+Requires at least: 6.0
+Tested up to: 6.9
+Stable tag: 1.0.6
+Requires PHP: 7.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -19,7 +19,7 @@ Instead of just entering a transaction ID, customers can **upload a screenshot o
 **Features:**
 * Accept bank transfer payments from any Bangladeshi bank (City Bank, IFIC BANK, UCB Bank, Islami Bank etc.).
 * Customers upload a **payment receipt image** (PNG/JPG) during checkout.
-* Automatic file validation (max 500KB, only images allowed).
+* Automatic file validation (max 1MB, only images allowed).
 * Uploaded receipt is visible in the **WooCommerce order details** in the admin dashboard.
 * Displays your bank account details clearly on the checkout page.
 * Fully compatible with WooCommerce emails, order statuses, and cart flow.
@@ -58,6 +58,14 @@ Yes. It works alongside PayPal, Stripe, Cash on Delivery, and other gateways.
 
 == Changelog ==
 
+= 1.0.6 =
+* Fixed: Image upload size increased to 1MB.
+* Tested with the latest WordPress version.
+* Fixed minor bugs.
+
+= 1.0.5 =
+* Fix: Missing data.
+
 = 1.0.4 =
 * Major fix: Resolved critical conflict where inline script usage broke file upload functionality.
 * Compliance: Removed direct inline <script> tag to adhere to WordPress plugin submission guidelines.
@@ -79,7 +87,6 @@ Yes. It works alongside PayPal, Stripe, Cash on Delivery, and other gateways.
 = 1.0.0 =
 * Initial release.
 
-== Upgrade Notice ==
-
-= 1.0.4 =
-Final stable release. Fully resolves the critical timing conflict issue related to file uploads and compliance requirements.
+== Update Notice ==
+= 1.0.6 =
+Version 1.0.6 has been released as a stable version.
