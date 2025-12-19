@@ -25,7 +25,7 @@
         },
         handleFileValidation: function(e) {
             const file = e.target.files[0];
-            const maxSizeBytes = 512000;
+            const maxSizeBytes = 1048576;
 
             if (file && file.size > maxSizeBytes) {
                 // Use the localized error message
