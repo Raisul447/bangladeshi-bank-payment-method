@@ -3,7 +3,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-// Class name updated with unique plugin prefix
 class RSLDVBBPM_WC_Gateway_Bangladeshi_Bank_Payment extends WC_Payment_Gateway {
 
     public $account_name;
@@ -129,8 +128,6 @@ class RSLDVBBPM_WC_Gateway_Bangladeshi_Bank_Payment extends WC_Payment_Gateway {
         echo '</div>';
 
         echo '<div class="bbpm-help-text">' . esc_html( __( 'Please pay the total amount through NPSB to avoid payment disruptions or delivery delays, and upload the payment receipt/screenshot to confirm your order.', 'bangladeshi-bank-payment-method' ) ) . '</div>';
-
-        // **CRITICAL FIX: Corrected the quotes to fix Uncaught SyntaxError**
         echo '<script>
         document.addEventListener("DOMContentLoaded", function() {
             const fileInput = document.querySelector(\'input[name="bbpm_payment_receipt"]\');
