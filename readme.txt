@@ -90,3 +90,4 @@ Yes. It works alongside PayPal, Stripe, Cash on Delivery, and other gateways.
 == Update Notice ==
 = 1.0.6 =
 Version 1.0.6 has been released as a stable version.
+
