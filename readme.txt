@@ -3,7 +3,7 @@ Contributors: shagor447
 Tags: woocommerce, payment gateway, bangladesh bank transfer, manual payment, bangladeshi bank payment gateway
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 Requires PHP: 7.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -19,7 +19,7 @@ Instead of just entering a transaction ID, customers can **upload a screenshot o
 **Features:**
 * Accept bank transfer payments from any Bangladeshi bank (City Bank, IFIC BANK, UCB Bank, Islami Bank etc.).
 * Customers upload a **payment receipt image** (PNG/JPG) during checkout.
-* Automatic file validation (max 1MB, only images allowed).
+* Automatic file validation (max 5MB, only images allowed).
 * Uploaded receipt is visible in the **WooCommerce order details** in the admin dashboard.
 * Displays your bank account details clearly on the checkout page.
 * Fully compatible with WooCommerce emails, order statuses, and cart flow.
@@ -40,7 +40,7 @@ Instead of just entering a transaction ID, customers can **upload a screenshot o
 Yes! Customers can upload a screenshot of their Bank transaction confirmation as the payment receipt.
 
 = What file types are allowed? =
-Only **JPG, JPEG, and PNG** images are accepted. Maximum file size: **500KB**.
+Only **JPG, JPEG, and PNG** images are accepted. Maximum file size: **5MB**.
 
 = Where can I see the uploaded receipt? =
 Go to **WooCommerce → Orders → [Order]**. The receipt image appears under the billing address section.
@@ -57,6 +57,12 @@ Yes. It works alongside PayPal, Stripe, Cash on Delivery, and other gateways.
 3. Bank account setup and management in payment settings.
 
 == Changelog ==
+
+= 1.0.7 =
+* Improve: Enhanced the checkout user interface with a modern, card-based layout for bank details.
+* Fixed: Resolved "Choose File" border breaking issue on mobile devices.
+* Fixed: Increased image upload size limit to 5MB to support high-quality receipts.
+* Tested: Fully compatible with the latest WordPress and WooCommerce versions.
 
 = 1.0.6 =
 * Fixed: Image upload size increased to 1MB.
@@ -88,6 +94,5 @@ Yes. It works alongside PayPal, Stripe, Cash on Delivery, and other gateways.
 * Initial release.
 
 == Update Notice ==
-= 1.0.6 =
-Version 1.0.6 has been released as a stable version.
-
+= 1.0.7 =
+Version 1.0.7 has been released as a stable version.
