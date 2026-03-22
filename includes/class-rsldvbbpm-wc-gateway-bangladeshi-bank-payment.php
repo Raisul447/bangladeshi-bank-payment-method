@@ -3,6 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// Class name updated with unique plugin prefix
 class RSLDVBBPM_WC_Gateway_Bangladeshi_Bank_Payment extends WC_Payment_Gateway {
 
     public $account_name;
@@ -79,26 +80,31 @@ class RSLDVBBPM_WC_Gateway_Bangladeshi_Bank_Payment extends WC_Payment_Gateway {
                 'title'       => __( 'Account Number', 'bangladeshi-bank-payment-method' ),
                 'type'        => 'text',
                 'default'     => '1234567891011',
+                'placeholder' => '1234567891011',
             ),
             'account_holder' => array(
                 'title'       => __( 'Account Holder Name', 'bangladeshi-bank-payment-method' ),
                 'type'        => 'text',
                 'default'     => 'Your Account Name',
+                'placeholder' => 'Your Account Name',
             ),
             'branch_name' => array(
                 'title'       => __( 'Branch Name', 'bangladeshi-bank-payment-method' ),
                 'type'        => 'text',
                 'default'     => 'Dhaka Main Branch',
+                'placeholder' => 'Dhaka Main Branch',
             ),
             'routing_number' => array(
                 'title'       => __( 'Routing Number', 'bangladeshi-bank-payment-method' ),
                 'type'        => 'text',
                 'default'     => '987654321',
+                'placeholder' => '987654321',
             ),
             'bank_logo_url' => array(
                 'title'       => __( 'Bank Logo URL', 'bangladeshi-bank-payment-method' ),
                 'type'        => 'text',
                 'description' => __( 'Enter the full URL of the bank logo (e.g., https://domain.com/assets/bank_logo.png) for the icon on the checkout page. The image should be small (e.g., 45x30px) for best display.', 'bangladeshi-bank-payment-method' ),
+                'placeholder' => 'https://domain.com/assets/bank_logo.png',
                 'desc_tip'    => true,
                 'default'     => '',
                 'custom_attributes' => array(
@@ -109,40 +115,40 @@ class RSLDVBBPM_WC_Gateway_Bangladeshi_Bank_Payment extends WC_Payment_Gateway {
     }
 
     public function payment_fields() {
-        echo '<div id="bbpm-payment-details-wrapper">';
-        echo '<div id="bbpm-payment-details-inner" class="bbpm-details-box">';
-        echo '<p class="bbpm-bank-name"><strong>' . esc_html( $this->account_name ) . '</strong></p>';
-        echo '<ul class="bbpm-account-list">';
-        echo '<li class="bbpm-list-item"><strong>' . esc_html( __( 'Account Number:', 'bangladeshi-bank-payment-method' ) ) . '</strong> <span>' . esc_html( $this->account_number ) . '</span></li>';
-        echo '<li class="bbpm-list-item"><strong>' . esc_html( __( 'Account Holder Name:', 'bangladeshi-bank-payment-method' ) ) . '</strong> <span>' . esc_html( $this->account_holder ) . '</span></li>';
-        echo '<li class="bbpm-list-item"><strong>' . esc_html( __( 'Branch Name:', 'bangladeshi-bank-payment-method' ) ) . '</strong> <span>' . esc_html( $this->branch_name ) . '</span></li>';
-        echo '<li class="bbpm-list-item"><strong>' . esc_html( __( 'Routing Number:', 'bangladeshi-bank-payment-method' ) ) . '</strong> <span>' . esc_html( $this->routing_number ) . '</span></li>';
-        echo '</ul>';
-        echo '</div>';
-
-        echo '<div class="form-row bbpm-payment-receipt-field">';
-        echo '<label for="' . esc_attr( $this->id ) . '-payment-receipt">' . esc_html( __( 'Upload your payment receipt or screenshot (Required)', 'bangladeshi-bank-payment-method' ) ) . ' <span class="required">*</span></label>';
-        echo '<input id="' . esc_attr( $this->id ) . '-payment-receipt" class="input-text bbpm-input-field" type="file" name="bbpm_payment_receipt" accept="image/png,image/jpeg,image/jpg" required />';
-        wp_nonce_field( 'bbpm_process_payment', 'bbpm_process_payment_nonce' );
-        echo '<small class="bbpm-file-info">' . esc_html( __( 'Max upload size: 1MB. Supported formats: PNG, JPG, JPEG.', 'bangladeshi-bank-payment-method' ) ) . '</small>';
-        echo '</div>';
-
-        echo '<div class="bbpm-help-text">' . esc_html( __( 'Please pay the total amount through NPSB to avoid payment disruptions or delivery delays, and upload the payment receipt/screenshot to confirm your order.', 'bangladeshi-bank-payment-method' ) ) . '</div>';
-        echo '<script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const fileInput = document.querySelector(\'input[name="bbpm_payment_receipt"]\');
-            if (fileInput) {
-                fileInput.addEventListener("change", function(e) {
-                    const file = e.target.files[0];
-                    if (file && file.size > 1048576) {
-                        alert(\'' . esc_js( __( 'File must be under 1MB.', 'bangladeshi-bank-payment-method' ) ) . '\');
-                        e.target.value = "";
-                    }
-                });
-            }
-        });
-        </script>';
-
+        echo '<div id="bbpm-payment-details-wrapper" class="rsldv-container">';
+            
+            // Bank details card
+            echo '<div class="rsldv-bank-card">';
+                echo '<span class="rsldv-bank-header">' . esc_html( $this->account_name ) . '</span>';
+                
+                $details = array(
+                    __( 'Account Number', 'bangladeshi-bank-payment-method' ) => $this->account_number,
+                    __( 'Account Holder', 'bangladeshi-bank-payment-method' ) => $this->account_holder,
+                    __( 'Branch Name', 'bangladeshi-bank-payment-method' )    => $this->branch_name,
+                    __( 'Routing Number', 'bangladeshi-bank-payment-method' )  => $this->routing_number,
+                );
+    
+                foreach ( $details as $label => $value ) {
+                    echo '<div class="rsldv-info-row">';
+                        echo '<span class="rsldv-label">' . esc_html( $label ) . ':</span>';
+                        echo '<span class="rsldv-value">' . esc_html( $value ) . '</span>';
+                    echo '</div>';
+                }
+            echo '</div>';
+    
+            // Upload field
+            echo '<div class="rsldv-upload-section">';
+                echo '<label class="rsldv-upload-label" for="' . esc_attr( $this->id ) . '-receipt">' . esc_html( __( 'Upload Payment Receipt (Required)', 'bangladeshi-bank-payment-method' ) ) . ' <span style="color:red;">*</span></label>';
+                echo '<input id="' . esc_attr( $this->id ) . '-receipt" class="rsldv-file-input" type="file" name="bbpm_payment_receipt" accept="image/png,image/jpeg,image/jpg" required />';
+                wp_nonce_field( 'bbpm_process_payment', 'bbpm_process_payment_nonce' );
+                echo '<p style="font-size:12px; color:#64748b; margin-top:5px;">' . esc_html( __( 'Max: 5MB. Formats: PNG, JPG, JPEG.', 'bangladeshi-bank-payment-method' ) ) . '</p>';
+            echo '</div>';
+    
+            // Help text alert
+            echo '<div class="rsldv-alert-box">';
+                echo '<p class="rsldv-alert-text">' . esc_html( __( 'Please pay the total amount through (NPSB) to avoid payment disruptions or delivery delays, and upload the payment receipt/screenshot to confirm your order.', 'bangladeshi-bank-payment-method' ) ) . '</p>';
+            echo '</div>';
+    
         echo '</div>';
     }
 
@@ -180,8 +186,8 @@ class RSLDVBBPM_WC_Gateway_Bangladeshi_Bank_Payment extends WC_Payment_Gateway {
             return;
         }
 
-        if ( $file_data['size'] > 1048576 ) {
-            wc_add_notice( __( 'File size exceeds 1MB limit.', 'bangladeshi-bank-payment-method' ), 'error' );
+        if ( $file_data['size'] > 5242880 ) {
+            wc_add_notice( __( 'File size exceeds 5MB limit.', 'bangladeshi-bank-payment-method' ), 'error' );
             return;
         }
 
@@ -241,25 +247,24 @@ class RSLDVBBPM_WC_Gateway_Bangladeshi_Bank_Payment extends WC_Payment_Gateway {
         // intentionally left blank
     }
 
-    public function display_payment_receipt_admin_order( $order ) {
-        $receipt_url = get_post_meta( $order->get_id(), '_bbpm_payment_receipt_url', true );
-        $receipt_id  = get_post_meta( $order->get_id(), '_bbpm_payment_receipt_id', true );
+public function display_payment_receipt_admin_order( $order ) {
+    $receipt_url = get_post_meta( $order->get_id(), '_bbpm_payment_receipt_url', true );
+    $receipt_id  = get_post_meta( $order->get_id(), '_bbpm_payment_receipt_id', true );
 
-        if ( $receipt_url ) {
-            $image_html = '';
-            if ( $receipt_id && is_numeric( $receipt_id ) ) {
-                $image_html = wp_get_attachment_image( $receipt_id, 'medium', false, array( 'style' => 'max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;' ) );
-            }
-            if ( empty( $image_html ) ) {
-                $image_html = '<img src="' . esc_url( $receipt_url ) . '" style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;" alt="' . esc_attr__( 'Payment Receipt Image', 'bangladeshi-bank-payment-method' ) . '" />';
-            }
-
-            echo '<div class="bbpm-admin-transaction-id-box">';
-            echo '<h3>' . esc_html( __( 'Bank Payment Receipt', 'bangladeshi-bank-payment-method' ) ) . '</h3>';
-            echo '<p><strong>' . esc_html( __( 'Receipt Image:', 'bangladeshi-bank-payment-method' ) ) . '</strong></p>';
-            echo '<p>' . wp_kses_post( $image_html ) . '</p>';
-            echo '<p><a href="' . esc_url( $receipt_url ) . '" target="_blank">' . esc_html( __( 'View Full Image', 'bangladeshi-bank-payment-method' ) ) . '</a></p>';
+    if ( $receipt_url ) {
+        echo '<div class="rsldv-admin-panel" style="all:initial; display:block; font-family:sans-serif; margin-top:20px; border:1px solid #cbd5e1; border-radius:8px; background:#fff; overflow:hidden; width:100%; box-sizing:border-box;">';
+            echo '<div style="padding:12px; background:#f1f5f9; border-bottom:1px solid #cbd5e1; font-weight:bold; color:#334155;">' . esc_html__( 'Payment Receipt Verification', 'bangladeshi-bank-payment-method' ) . '</div>';
+            echo '<div style="padding:15px; text-align:center;">';
+                if ( $receipt_id ) {
+                    echo wp_get_attachment_image( $receipt_id, 'medium', false, array( 'style' => 'max-width:100%; height:auto; border-radius:4px; box-shadow:0 2px 8px rgba(0,0,0,0.1);' ) );
+                } else {
+                    echo '<img src="' . esc_url( $receipt_url ) . '" style="max-width:100%; border-radius:4px;" />';
+                }
+                echo '<div style="margin-top:15px; display:flex; gap:10px; justify-content:center;">';
+                    echo '<a href="' . esc_url( $receipt_url ) . '" target="_blank" class="button button-primary" style="all:revert; cursor:pointer;">' . esc_html__( 'View Full Image', 'bangladeshi-bank-payment-method' ) . '</a>';
+                echo '</div>';
             echo '</div>';
-        }
+        echo '</div>';
     }
+}
 }
