@@ -104,7 +104,7 @@ No. Payments are marked as "On Hold" until you manually verify the uploaded rece
 ---
 
 ## 📢 Update Notice
-= 1.0.6 = Version 1.0.6 has been released as a stable version.
+= 1.0.7 = Version 1.0.7 has been released as a stable version.
 
 ## ⚖️ License & Copyright
 - Copyright © **Raisul Islam Shagor** 
