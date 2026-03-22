@@ -11,7 +11,7 @@ A custom WooCommerce payment gateway for Bangladeshi businesses, enabling custom
 - **Requires at least:** WordPress 6.0  
 - **Tested up to:** WordPress 6.9  
 - **Requires PHP:** 7.4  
-- **Stable tag:** 1.0.6 
+- **Stable tag:** 1.0.7 
 - **License:** [GPLv3 or later](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ---
@@ -23,7 +23,7 @@ This plugin adds a secure Bank Payment with Receipt Upload option to your WooCom
 ## ✨ Features
 - Accept bank transfer payments from any Bangladeshi bank (City Bank, IFIC BANK, UCB Bank, Islami Bank etc.).
 - Customers upload a payment receipt image (PNG/JPG) during checkout.
-- Automatic file validation (max 1MB, only images allowed).
+- Automatic file validation (max 5MB, only images allowed).
 - Displays your bank account details clearly on the checkout page.
 - Fully compatible with WooCommerce emails, order statuses, and cart flow.
 - You can change your bank icon, which will make it visually clear and easier for customers to understand.
@@ -47,7 +47,7 @@ This plugin adds a secure Bank Payment with Receipt Upload option to your WooCom
 Yes! Customers can upload a screenshot of their Bank transaction confirmation as the payment receipt.
 
 ### 🔹 What file types and sizes are allowed?
-Only JPG, JPEG, and PNG images are accepted. The maximum file size allowed is 500KB.
+Only JPG, JPEG, and PNG images are accepted. The maximum file size allowed is 5MB.
 
 ### 🔹 Where can I see the uploaded receipt?
 Go to WooCommerce → Orders → [Order]. The receipt image appears under the billing address section.
@@ -65,6 +65,12 @@ No. Payments are marked as "On Hold" until you manually verify the uploaded rece
 ---
 
 ## 📝 Changelog
+
+### 1.0.7
+- Improve: Enhanced the checkout user interface with a modern, card-based layout for bank details.
+- Fixed: Resolved "Choose File" border breaking issue on mobile devices.
+- Fixed: Increased image upload size limit to 5MB to support high-quality receipts.
+- Tested: Fully compatible with the latest WordPress and WooCommerce versions.
 
 ### 1.0.6
 - Fixed: Image upload size increased to 1MB.
