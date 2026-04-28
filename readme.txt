@@ -1,98 +1,62 @@
-=== Bangladeshi Bank Payment Method ===
-Contributors: shagor447
-Tags: woocommerce, payment gateway, bangladesh bank transfer, manual payment, bangladeshi bank payment gateway
+<?php
+/*
+Plugin Name: Bangladeshi Bank Payment Method
+Plugin URI:  https://raisul.dev/projects/bangladeshi-bank-payment-method-for-woocommerce-plugin
+Description: WooCommerce payment gateway for Bangladeshi businesses that allows customers to upload a bank payment receipt (screenshot/image) during checkout for manual verification.
+Version:     1.1.7
+Author:      Raisul Islam Shagor
+Author URI:  https://raisul.dev
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 1.0.7
 Requires PHP: 7.4
+Requires Plugins: woocommerce
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Contributors: shagor447
+Text Domain: bangladeshi-bank-payment-method
+Domain Path: /languages
+Stable tag:  1.1.7
+*/
 
-WooCommerce gateway for Bangladeshi businesses allowing customers to upload bank payment receipts at checkout.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-== Description ==
-This plugin adds a secure **Bank Payment with Receipt Upload** option to your WooCommerce store, specially designed for merchants and customers in Bangladesh.
-Instead of just entering a transaction ID, customers can **upload a screenshot or photo of their bank payment receipt** (e.g., mobile banking confirmation) directly on the checkout page. The uploaded image is securely stored and displayed in the order details for easy manual verification by the store admin.
+if ( ! function_exists( 'is_plugin_active' ) ) {
+    require_once ABSPATH . 'wp-admin/includes/plugin.php';
+}
 
-**Perfect for businesses that require visual proof of payment before processing orders.**
+if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
 
-**Features:**
-* Accept bank transfer payments from any Bangladeshi bank (City Bank, IFIC BANK, UCB Bank, Islami Bank etc.).
-* Customers upload a **payment receipt image** (PNG/JPG) during checkout.
-* Automatic file validation (max 5MB, only images allowed).
-* Uploaded receipt is visible in the **WooCommerce order details** in the admin dashboard.
-* Displays your bank account details clearly on the checkout page.
-* Fully compatible with WooCommerce emails, order statuses, and cart flow.
-* You can change your bank icon, it will make it visually clear and easier for customers to understand.
-* No sensitive data stored — secure and lightweight.
+    add_action( 'wp_enqueue_scripts', function() {
+        if ( is_checkout() && ! is_wc_endpoint_url( 'order-received' ) ) {
+            
+            /**
+             * Using anonymous logic inside action to avoid Non-Prefixed Function Warnings
+             */
+            $css_path = plugin_dir_path( __FILE__ ) . 'assets/bbpm-style-checkout.css';
+            $js_path  = plugin_dir_path( __FILE__ ) . 'assets/bbpm-checkout.js';
+            
+            $css_v = file_exists( $css_path ) ? filemtime( $css_path ) : '1.1.7';
+            $js_v  = file_exists( $js_path ) ? filemtime( $js_path ) : '1.1.7';
 
-== Installation ==
-1. Upload the `bangladeshi-bank-payment-method` folder to the `/wp-content/plugins/` directory.
-2. Activate the plugin through the **Plugins** menu in WordPress.
-3. Go to **WooCommerce → Settings → Payments**.
-4. Find **"Bangladeshi Bank Payment Method"** and click **Manage**.
-5. Enable the gateway, enter your bank details, and save changes.
-6. Customers will now see this option at checkout and can upload their payment proof.
+            wp_enqueue_style( 'bbpm-style-checkout', plugins_url( 'assets/bbpm-style-checkout.css', __FILE__ ), array(), $css_v );
+            wp_enqueue_script( 'bbpm-checkout-js', plugins_url( 'assets/bbpm-checkout.js', __FILE__ ), array( 'jquery' ), $js_v, true );
 
-== Frequently Asked Questions ==
+            wp_localize_script( 'bbpm-checkout-js', 'BBPM_Data', array(
+                'gatewayId'      => 'bangladeshi_bank_payment',
+                'fileSizeError'  => __( 'File size exceeds 5MB limit.', 'bangladeshi-bank-payment-method' ),
+                'fileInputSelector' => '#bangladeshi_bank_payment-receipt'
+            ));
+        }
+    });
 
-= Can customers use this with any Bank App? =
-Yes! Customers can upload a screenshot of their Bank transaction confirmation as the payment receipt.
+    add_filter( 'woocommerce_payment_gateways', function( $methods ) {
+        $methods[] = 'RSLDVBBPM_WC_Gateway_Bangladeshi_Bank_Payment';
+        return $methods;
+    });
 
-= What file types are allowed? =
-Only **JPG, JPEG, and PNG** images are accepted. Maximum file size: **5MB**.
-
-= Where can I see the uploaded receipt? =
-Go to **WooCommerce → Orders → [Order]**. The receipt image appears under the billing address section.
-
-= Does this plugin auto-verify payments? =
-No. Payments are marked as **"On Hold"** until you manually verify the uploaded receipt.
-
-= Is this plugin compatible with other payment methods? =
-Yes. It works alongside PayPal, Stripe, Cash on Delivery, and other gateways.
-
-== Screenshots ==
-1. Checkout page overview (customer view).
-2. View uploaded payment receipt in order details.
-3. Bank account setup and management in payment settings.
-
-== Changelog ==
-
-= 1.0.7 =
-* Improve: Enhanced the checkout user interface with a modern, card-based layout for bank details.
-* Fixed: Resolved "Choose File" border breaking issue on mobile devices.
-* Fixed: Increased image upload size limit to 5MB to support high-quality receipts.
-* Tested: Fully compatible with the latest WordPress and WooCommerce versions.
-
-= 1.0.6 =
-* Fixed: Image upload size increased to 1MB.
-* Tested with the latest WordPress version.
-* Fixed minor bugs.
-
-= 1.0.5 =
-* Fix: Missing data.
-
-= 1.0.4 =
-* Major fix: Resolved critical conflict where inline script usage broke file upload functionality.
-* Compliance: Removed direct inline <script> tag to adhere to WordPress plugin submission guidelines.
-* Fix: Ensured file size validation and AJAX disable logic now function correctly using standard JS enqueuing methods.
-
-= 1.0.3 =
-* Disabled WooCommerce AJAX checkout when this gateway is selected to ensure file uploads work reliably.
-* Improved JavaScript isolation and form handling.
-
-= 1.0.2 =
-* Fixed "Please upload a payment receipt" error on checkout.
-* Added proper translators comment and PHPCS compliance.
-* Enhanced security and file validation.
-
-= 1.0.1 =
-* Minor CSS and UI improvements.
-* Better error handling for file uploads.
-
-= 1.0.0 =
-* Initial release.
-
-== Update Notice ==
-= 1.0.7 =
-Version 1.0.7 has been released as a stable version.
+    add_action( 'plugins_loaded', function() {
+        if ( class_exists( 'WC_Payment_Gateway' ) ) {
+            require_once plugin_dir_path( __FILE__ ) . 'includes/class-rsldvbbpm-wc-gateway-bangladeshi-bank-payment.php';
+        }
+    }, 11 );
+}
