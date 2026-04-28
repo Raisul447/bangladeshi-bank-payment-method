@@ -3,9 +3,9 @@
 Plugin Name: Bangladeshi Bank Payment Method
 Plugin URI:  https://raisul.dev/projects/bangladeshi-bank-payment-method-for-woocommerce-plugin
 Description: WooCommerce payment gateway for Bangladeshi businesses that allows customers to upload a bank payment receipt (screenshot/image) during checkout for manual verification.
-Version:     1.0.7
+Version:     1.1.7
 Author:      Raisul Islam Shagor
-Author URI: https://raisul.dev
+Author URI:  https://raisul.dev
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
@@ -15,70 +15,48 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Contributors: shagor447
 Text Domain: bangladeshi-bank-payment-method
 Domain Path: /languages
+Stable tag:  1.1.7
 */
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
-}
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! defined( 'RSLDV_BBPM_VERSION' ) ) {
-    define( 'RSLDV_BBPM_VERSION', '1.0.7' );
-}
-
-// **CRITICAL FIX:** Ensure the is_plugin_active function is available before calling it
 if ( ! function_exists( 'is_plugin_active' ) ) {
     require_once ABSPATH . 'wp-admin/includes/plugin.php';
 }
 
-// Checking for WooCommerce activation using the correct standard function
 if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
 
-    function rsldvbbpm_enqueue_styles() {
+    add_action( 'wp_enqueue_scripts', function() {
         if ( is_checkout() && ! is_wc_endpoint_url( 'order-received' ) ) {
-            wp_enqueue_style( 
-                'bbpm-style-checkout', 
-                plugins_url( 'assets/bbpm-style-checkout.css', __FILE__ ), 
-                array(), 
-                RSLDV_BBPM_VERSION
-            );
-        }
-    }
-    add_action( 'wp_enqueue_scripts', 'rsldvbbpm_enqueue_styles' );
+            
+            /**
+             * Using anonymous logic inside action to avoid Non-Prefixed Function Warnings
+             */
+            $css_path = plugin_dir_path( __FILE__ ) . 'assets/bbpm-style-checkout.css';
+            $js_path  = plugin_dir_path( __FILE__ ) . 'assets/bbpm-checkout.js';
+            
+            $css_v = file_exists( $css_path ) ? filemtime( $css_path ) : '1.1.7';
+            $js_v  = file_exists( $js_path ) ? filemtime( $js_path ) : '1.1.7';
 
-    /**
-     * Enqueue custom JS for non-AJAX file upload and localize data
-     */
-    // Global function prefixed
-    function rsldvbbpm_enqueue_scripts() {
-        if ( is_checkout() && ! is_wc_endpoint_url( 'order-received' ) ) {
-            wp_enqueue_script(
-                'bbpm-checkout-js',
-                plugins_url( 'assets/bbpm-checkout.js', __FILE__ ),
-                array( 'jquery', 'wc-checkout' ),
-                RSLDV_BBPM_VERSION,
-                true
-            );
-        }
-    }
-    add_action( 'wp_enqueue_scripts', 'rsldvbbpm_enqueue_scripts', 20 );
+            wp_enqueue_style( 'bbpm-style-checkout', plugins_url( 'assets/bbpm-style-checkout.css', __FILE__ ), array(), $css_v );
+            wp_enqueue_script( 'bbpm-checkout-js', plugins_url( 'assets/bbpm-checkout.js', __FILE__ ), array( 'jquery' ), $js_v, true );
 
-    
-    // Global function prefixed 
-    function rsldvbbpm_add_gateway_class( $methods ) {
-        // Updated Class Name
+            wp_localize_script( 'bbpm-checkout-js', 'BBPM_Data', array(
+                'gatewayId'      => 'bangladeshi_bank_payment',
+                'fileSizeError'  => __( 'File size exceeds 5MB limit.', 'bangladeshi-bank-payment-method' ),
+                'fileInputSelector' => '#bangladeshi_bank_payment-receipt'
+            ));
+        }
+    });
+
+    add_filter( 'woocommerce_payment_gateways', function( $methods ) {
         $methods[] = 'RSLDVBBPM_WC_Gateway_Bangladeshi_Bank_Payment';
         return $methods;
-    }
-    add_filter( 'woocommerce_payment_gateways', 'rsldvbbpm_add_gateway_class' );
+    });
 
-    // Global function prefixed
-    function rsldvbbpm_woocommerce_bank_gateway_init() {
-        if ( ! class_exists( 'WC_Payment_Gateway' ) ) {
-            return;
+    add_action( 'plugins_loaded', function() {
+        if ( class_exists( 'WC_Payment_Gateway' ) ) {
+            require_once plugin_dir_path( __FILE__ ) . 'includes/class-rsldvbbpm-wc-gateway-bangladeshi-bank-payment.php';
         }
-
-        // Updated required file path
-        require_once plugin_dir_path( __FILE__ ) . 'includes/class-rsldvbbpm-wc-gateway-bangladeshi-bank-payment.php';
-    }
-    add_action( 'plugins_loaded', 'rsldvbbpm_woocommerce_bank_gateway_init', 11 );
+    }, 11 );
 }
