@@ -11,7 +11,7 @@ A custom WooCommerce payment gateway for Bangladeshi businesses, enabling custom
 - **Requires at least:** WordPress 6.0  
 - **Tested up to:** WordPress 6.9  
 - **Requires PHP:** 7.4  
-- **Stable tag:** 1.0.7 
+- **Stable tag:** 1.1.7 
 - **License:** [GPLv3 or later](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ---
@@ -66,6 +66,17 @@ No. Payments are marked as "On Hold" until you manually verify the uploaded rece
 
 ## 📝 Changelog
 
+### 1.1.7
+- Fix: Fixed the "Payment Pending" and infinite loading issues to ensure smooth order placement.
+- Fix: Removed global namespace function to comply with WordPress Naming Conventions (Non-Prefixed Function error).
+- Fix: Optimized asset enqueuing using anonymous functions for better security and compatibility.
+
+### 1.0.8
+- Fixed: Resolved "Security check failed" error during checkout when a user tries to create a new account while using this payment gateway.
+- Fixed: Resolved infinite loading issue on the "Order Received" page by optimizing the checkout AJAX flow and standardizing redirect logic.
+- Improved: Enhanced the Admin Order Details UI with a refined receipt verification box and a "View Full Image" button for better accessibility.
+- Compliance: Fully sanitized all $_POST and $_FILES inputs to adhere to WordPress Security Coding Standards (WPCS).
+
 ### 1.0.7
 - Improve: Enhanced the checkout user interface with a modern, card-based layout for bank details.
 - Fixed: Resolved "Choose File" border breaking issue on mobile devices.
@@ -104,7 +115,8 @@ No. Payments are marked as "On Hold" until you manually verify the uploaded rece
 ---
 
 ## 📢 Update Notice
-= 1.0.7 = Version 1.0.7 has been released as a stable version.
+= 1.1.7 =
+Fixed the "Payment Pending" and infinite loading issues to ensure smooth order placement. Highly recommended for all users to ensure a stable and secure checkout experience.
 
 ## ⚖️ License & Copyright
 - Copyright © **Raisul Islam Shagor** 
